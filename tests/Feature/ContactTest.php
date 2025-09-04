@@ -195,37 +195,39 @@ class ContactTest extends TestCase
             ]);
     }
 
-    // public function testDeleteSuccess()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class]);
+    // delete sukses
+    public function testDeleteSuccess()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class]);
 
-    //     $contact = Contact::query()->limit(1)->first();
+        $contact = Contact::query()->limit(1)->first();
 
-    //     $this->delete('/api/contacts/' . $contact->id, [], [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => true
-    //         ]);
-    // }
+        $this->delete('/api/contacts/' . $contact->id, [], [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => true
+            ]);
+    }
 
-    // public function testDeleteNotFound()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class]);
+    // delete not found
+    public function testDeleteNotFound()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class]);
 
-    //     $contact = Contact::query()->limit(1)->first();
+        $contact = Contact::query()->limit(1)->first();
 
-    //     $this->delete('/api/contacts/' . ($contact->id + 1), [], [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(404)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 "message" => [
-    //                     "not found"
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+        $this->delete('/api/contacts/' . ($contact->id + 1), [], [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ]);
+    }
 
     // public function testSearchByFirstName()
     // {

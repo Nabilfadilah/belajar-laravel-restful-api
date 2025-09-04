@@ -80,26 +80,30 @@ class ContactController extends Controller
         return new ContactResource($contact);
     }
 
-    // public function delete(int $id): JsonResponse
-    // {
-    //     $user = Auth::user();
+    // delete
+    public function delete(int $id): JsonResponse // balikan jsonresponse
+    {
+        // ambil yg login
+        $user = Auth::user();
 
-    //     $contact = Contact::where('id', $id)->where('user_id', $user->id)->first();
-    //     if (!$contact) {
-    //         throw new HttpResponseException(response()->json([
-    //             'errors' => [
-    //                 "message" => [
-    //                     "not found"
-    //                 ]
-    //             ]
-    //         ])->setStatusCode(404));
-    //     }
+        // ambil contact asli dari database pakai id user id
+        $contact = Contact::where('id', $id)->where('user_id', $user->id)->first();
+        if (!$contact) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
 
-    //     $contact->delete();
-    //     return response()->json([
-    //         'data' => true
-    //     ])->setStatusCode(200);
-    // }
+        // delete contact datanya
+        $contact->delete();
+        return response()->json([
+            'data' => true // data true
+        ])->setStatusCode(200); // response 
+    }
 
     // public function search(Request $request): ContactCollection
     // {
