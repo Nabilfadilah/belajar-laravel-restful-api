@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
+    // create
     public function create(ContactCreateRequest $request): JsonResponse
     {
         // validasi request data
@@ -30,22 +31,29 @@ class ContactController extends Controller
         return (new ContactResource($contact))->response()->setStatusCode(201);
     }
 
-    // public function get(int $id): ContactResource
-    // {
-    //     $user = Auth::user();
-    //     $contact = Contact::where('id', $id)->where('user_id', $user->id)->first();
-    //     if (!$contact) {
-    //         throw new HttpResponseException(response()->json([
-    //             'errors' => [
-    //                 "message" => [
-    //                     "not found"
-    //                 ]
-    //             ]
-    //         ])->setStatusCode(404));
-    //     }
+    // get 
+    public function get(int $id): ContactResource
+    {
+        // ambil data user yang sedang login
+        $user = Auth::user();
 
-    //     return new ContactResource($contact);
-    // }
+        // ambil contact asli dari database pakai id user id
+        $contact = Contact::where('id', $id)->where('user_id', $user->id)->first();
+        // jika bukan id contact
+        if (!$contact) {
+            // kasih erorr response
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        // retrun contact response
+        return new ContactResource($contact);
+    }
 
     // public function update(int $id, ContactUpdateRequest $request): ContactResource
     // {

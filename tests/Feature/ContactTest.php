@@ -85,57 +85,63 @@ class ContactTest extends TestCase
             ]);
     }
 
-    // public function testGetSuccess()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class]);
-    //     $contact = Contact::query()->limit(1)->first();
+    // get sukses
+    public function testGetSuccess()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class, ContactSeeder::class]);
 
-    //     $this->get('/api/contacts/' . $contact->id, [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => [
-    //                 'first_name' => 'test',
-    //                 'last_name' => 'test',
-    //                 'email' => 'test@pzn.com',
-    //                 'phone' => '111111',
-    //             ]
-    //         ]);
-    // }
+        // ambil contact, data yang perta
+        $contact = Contact::query()->limit(1)->first();
 
-    // public function testGetNotFound()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class]);
-    //     $contact = Contact::query()->limit(1)->first();
+        $this->get('/api/contacts/' . $contact->id, [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'first_name' => 'test',
+                    'last_name' => 'test',
+                    'email' => 'test@pzn.com',
+                    'phone' => '111111',
+                ]
+            ]);
+    }
 
-    //     $this->get('/api/contacts/' . ($contact->id + 1), [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(404)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 'message' => [
-    //                     'not found'
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+    // get gagal
+    public function testGetNotFound()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class]);
+        $contact = Contact::query()->limit(1)->first();
 
-    // public function testGetOtherUserContact()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class]);
-    //     $contact = Contact::query()->limit(1)->first();
+        $this->get('/api/contacts/' . ($contact->id + 1), [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ]);
+    }
 
-    //     $this->get('/api/contacts/' . $contact->id, [
-    //         'Authorization' => 'test2'
-    //     ])->assertStatus(404)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 'message' => [
-    //                     'not found'
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+    // get tidak ada user 
+    public function testGetOtherUserContact()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class]);
+        $contact = Contact::query()->limit(1)->first();
+
+        $this->get('/api/contacts/' . $contact->id, [
+            'Authorization' => 'test2'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ]);
+    }
 
     // public function testUpdateSuccess()
     // {
