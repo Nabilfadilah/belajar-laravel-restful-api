@@ -44,26 +44,33 @@ class UserController extends Controller
         return (new UserResource($user))->response()->setStatusCode(201);
     }
 
-    // public function login(UserLoginRequest $request): UserResource
-    // {
-    //     $data = $request->validated();
+    // login
+    public function login(UserLoginRequest $request): UserResource
+    {
+        $data = $request->validated(); // validasi request data
 
-    //     $user = User::where('username', $data['username'])->first();
-    //     if (!$user || !Hash::check($data['password'], $user->password)) {
-    //         throw new HttpResponseException(response([
-    //             "errors" => [
-    //                 "message" => [
-    //                     "username or password wrong"
-    //                 ]
-    //             ]
-    //         ], 401));
-    //     }
+        // jika cek ke database User, username harus sama dengan data usernama di table, dan data pertama
+        // validasi username harus unique
+        $user = User::where('username', $data['username'])->first();
+        // cek user dan cek data paswword yang di hash nya sesuai dengan di database user kolom password
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            // ada di database?
+            // kalau gak ada jalankan response ini
+            throw new HttpResponseException(response([
+                "errors" => [
+                    "message" => [
+                        "username or password wrong"
+                    ]
+                ]
+            ], 401));
+        }
 
-    //     $user->token = Str::uuid()->toString();
-    //     $user->save();
+        $user->token = Str::uuid()->toString(); // simpan token dan uuid, konversi ke string
+        $user->save(); // terus simpan we
 
-    //     return new UserResource($user);
-    // }
+        // return/balikan dalam bentuk UserResource 
+        return new UserResource($user);
+    }
 
     // public function get(Request $request): UserResource
     // {

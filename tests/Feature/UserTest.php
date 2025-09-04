@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -70,54 +72,65 @@ class UserTest extends TestCase
             ]);
     }
 
-    // public function testLoginSuccess()
-    // {
-    //     $this->seed([UserSeeder::class]);
-    //     $this->post('/api/users/login', [
-    //         'username' => 'test',
-    //         'password' => 'test'
-    //     ])->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => [
-    //                 'username' => 'test',
-    //                 'name' => 'test'
-    //             ]
-    //         ]);
+    // login sukses
+    public function testLoginSuccess()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
 
-    //     $user = User::where('username', 'test')->first();
-    //     self::assertNotNull($user->token);
-    // }
+        // kirim ke api, dengan data valuenya
+        $this->post('/api/users/login', [
+            'username' => 'test',
+            'password' => 'test'
+        ])->assertStatus(200) // response
+            ->assertJson([ // kirim dalam json
+                'data' => [
+                    'username' => 'test',
+                    'name' => 'test'
+                ]
+            ]);
 
-    // public function testLoginFailedUsernameNotFound()
-    // {
-    //     $this->post('/api/users/login', [
-    //         'username' => 'test',
-    //         'password' => 'test'
-    //     ])->assertStatus(401)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 "message" => [
-    //                     "username or password wrong"
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+        // ambil database user dari username yang test, yang pertama
+        $user = User::where('username', 'test')->first();
+        self::assertNotNull($user->token); // jangan lupa berikan token yg gak null
+    }
 
-    // public function testLoginFailedPasswordWrong()
-    // {
-    //     $this->seed([UserSeeder::class]);
-    //     $this->post('/api/users/login', [
-    //         'username' => 'test',
-    //         'password' => 'salah'
-    //     ])->assertStatus(401)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 "message" => [
-    //                     "username or password wrong"
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+    // login gagal
+    public function testLoginFailedUsernameNotFound()
+    {
+        // kirim ke api, dengan data valuenya
+        $this->post('/api/users/login', [
+            'username' => 'test',
+            'password' => 'test'
+        ])->assertStatus(401) // response
+            ->assertJson([ // harus json
+                'errors' => [
+                    "message" => [
+                        "username or password wrong"
+                    ]
+                ]
+            ]);
+    }
+
+    // login yang password salah
+    public function testLoginFailedPasswordWrong()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
+
+        // kirim ke api, dengan data valuenya
+        $this->post('/api/users/login', [
+            'username' => 'test',
+            'password' => 'salah'
+        ])->assertStatus(401) // response
+            ->assertJson([ // dalam json
+                'errors' => [
+                    "message" => [
+                        "username or password wrong"
+                    ]
+                ]
+            ]);
+    }
 
     // public function testGetSuccess()
     // {
