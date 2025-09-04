@@ -124,6 +124,7 @@ class UserController extends Controller
     //     return new UserResource($user);
     // }
 
+    // logout sarua ieu oge gagal code na!!
     // public function logout(Request $request): JsonResponse
     // {
     //     $user = Auth::user();
@@ -134,4 +135,22 @@ class UserController extends Controller
     //         "data" => true
     //     ])->setStatusCode(200);
     // }
+
+    // logout opsi-2
+    public function logout(Request $request): JsonResponse
+    {
+        // Jangan langsung pakai Auth::user()->save() → karena itu GenericUser.
+        // Ambil ulang user dari DB pakai Eloquent → baru bisa save().
+        $authUser = Auth::user();
+
+        // cari user asli dari database pakai username (atau id kalau tersedia)
+        $user = User::where('username', $authUser->username)->firstOrFail();
+
+        $user->token = null;
+        $user->save();
+
+        return response()->json([
+            "data" => true
+        ], 200);
+    }
 }

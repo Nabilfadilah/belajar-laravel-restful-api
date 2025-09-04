@@ -274,34 +274,44 @@ class UserTest extends TestCase
             ]);
     }
 
-    // public function testLogoutSuccess()
-    // {
-    //     $this->seed([UserSeeder::class]);
+    // logout sukses
+    public function testLogoutSuccess()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
 
-    //     $this->delete(uri: '/api/users/logout', headers: [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(200)
-    //         ->assertJson([
-    //             "data" => true
-    //         ]);
+        // kirim ke api, dengan data valuenya
+        $this->delete(uri: '/api/users/logout', headers: [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                "data" => true
+            ]);
 
-    //     $user = User::where('username', 'test')->first();
-    //     self::assertNull($user->token);
-    // }
+        //ambil data user yang baru, dari username test
+        $user = User::where('username', 'test')->first();
+        // ambil token gak boleh kosong
+        self::assertNull($user->token);
+    }
 
-    // public function testLogoutFailed()
-    // {
-    //     $this->seed([UserSeeder::class]);
+    // logout gagal
+    public function testLogoutFailed()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
 
-    //     $this->delete(uri: '/api/users/logout', headers: [
-    //         'Authorization' => 'salah'
-    //     ])->assertStatus(401)
-    //         ->assertJson([
-    //             "errors" => [
-    //                 "message" => [
-    //                     "unauthorized"
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+        //ambil data user yang baru, dari username test
+
+        // kirim ke api, dengan data valuenya
+        $this->delete(uri: '/api/users/logout', headers: [
+            'Authorization' => 'salah'
+        ])->assertStatus(401)
+            ->assertJson([
+                "errors" => [
+                    "message" => [
+                        "unauthorized"
+                    ]
+                ]
+            ]);
+    }
 }
