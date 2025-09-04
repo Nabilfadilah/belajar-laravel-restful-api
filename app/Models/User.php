@@ -21,10 +21,11 @@ class User extends Model
     //     'name'
     // ];
 
-    // public function contacts(): HasMany
-    // {
-    //     return $this->hasMany(Contact::class, "user_id", "id");
-    // }
+    // many
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(Contact::class, "user_id", "id");
+    }
 
     // public function getAuthIdentifierName()
     // {
