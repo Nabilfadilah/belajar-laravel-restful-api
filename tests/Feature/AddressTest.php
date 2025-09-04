@@ -135,84 +135,87 @@ class AddressTest extends TestCase
             ]);
     }
 
-    // public function testUpdateSuccess()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
-    //     $address = Address::query()->limit(1)->first();
+    // update sukses
+    public function testUpdateSuccess()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
+        $address = Address::query()->limit(1)->first();
 
-    //     $this->put(
-    //         '/api/contacts/' . $address->contact_id . '/addresses/' . $address->id,
-    //         [
-    //             'street' => 'update',
-    //             'city' => 'update',
-    //             'province' => 'update',
-    //             'country' => 'update',
-    //             'postal_code' => '22222'
-    //         ],
-    //         [
-    //             'Authorization' => 'test'
-    //         ]
-    //     )->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => [
-    //                 'street' => 'update',
-    //                 'city' => 'update',
-    //                 'province' => 'update',
-    //                 'country' => 'update',
-    //                 'postal_code' => '22222'
-    //             ]
-    //         ]);
-    // }
+        $this->put(
+            '/api/contacts/' . $address->contact_id . '/addresses/' . $address->id,
+            [
+                'street' => 'update',
+                'city' => 'update',
+                'province' => 'update',
+                'country' => 'update',
+                'postal_code' => '22222'
+            ],
+            [
+                'Authorization' => 'test'
+            ]
+        )->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'street' => 'update',
+                    'city' => 'update',
+                    'province' => 'update',
+                    'country' => 'update',
+                    'postal_code' => '22222'
+                ]
+            ]);
+    }
 
-    // public function testUpdateFailed()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
-    //     $address = Address::query()->limit(1)->first();
+    // update gagal
+    public function testUpdateFailed()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
+        $address = Address::query()->limit(1)->first();
 
-    //     $this->put(
-    //         '/api/contacts/' . $address->contact_id . '/addresses/' . $address->id,
-    //         [
-    //             'street' => 'update',
-    //             'city' => 'update',
-    //             'province' => 'update',
-    //             'country' => '',
-    //             'postal_code' => '22222'
-    //         ],
-    //         [
-    //             'Authorization' => 'test'
-    //         ]
-    //     )->assertStatus(400)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 'country' => ['The country field is required.']
-    //             ]
-    //         ]);
-    // }
+        $this->put(
+            '/api/contacts/' . $address->contact_id . '/addresses/' . $address->id,
+            [
+                'street' => 'update',
+                'city' => 'update',
+                'province' => 'update',
+                'country' => '',
+                'postal_code' => '22222'
+            ],
+            [
+                'Authorization' => 'test'
+            ]
+        )->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'country' => ['The country field is required.']
+                ]
+            ]);
+    }
 
-    // public function testUpdateNotFound()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
-    //     $address = Address::query()->limit(1)->first();
+    // update tidak ada
+    public function testUpdateNotFound()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
+        $address = Address::query()->limit(1)->first();
 
-    //     $this->put(
-    //         '/api/contacts/' . $address->contact_id . '/addresses/' . ($address->id + 1),
-    //         [
-    //             'street' => 'update',
-    //             'city' => 'update',
-    //             'province' => 'update',
-    //             'country' => 'update',
-    //             'postal_code' => '22222'
-    //         ],
-    //         [
-    //             'Authorization' => 'test'
-    //         ]
-    //     )->assertStatus(404)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 'message' => ['not found']
-    //             ]
-    //         ]);
-    // }
+        $this->put(
+            '/api/contacts/' . $address->contact_id . '/addresses/' . ($address->id + 1),
+            [
+                'street' => 'update',
+                'city' => 'update',
+                'province' => 'update',
+                'country' => 'update',
+                'postal_code' => '22222'
+            ],
+            [
+                'Authorization' => 'test'
+            ]
+        )->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => ['not found']
+                ]
+            ]);
+    }
 
     // public function testDeleteSuccess()
     // {
