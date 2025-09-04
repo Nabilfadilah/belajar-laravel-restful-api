@@ -14,6 +14,7 @@ class Address extends Model
     public $incrementing = true;
     public $timestamps = true;
 
+    // data yang boleh diubah
     protected $fillable = [
         'street',
         'city',
