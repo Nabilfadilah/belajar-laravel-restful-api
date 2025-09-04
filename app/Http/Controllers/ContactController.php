@@ -105,36 +105,51 @@ class ContactController extends Controller
         ])->setStatusCode(200); // response 
     }
 
-    // public function search(Request $request): ContactCollection
-    // {
-    //     $user = Auth::user();
-    //     $page = $request->input('page', 1);
-    //     $size = $request->input('size', 10);
+    // search
+    public function search(Request $request): ContactCollection
+    {
+        $user = Auth::user(); // ambil user yg sedang login
+        $page = $request->input('page', 1); // ambil page request, kalau gak ada default berikan 1
+        $size = $request->input('size', 10); // ambil size request
 
-    //     $contacts = Contact::query()->where('user_id', $user->id);
+        // ambil contact asli dari database pakai id user id
+        $contacts = Contact::query()->where('user_id', $user->id);
 
-    //     $contacts = $contacts->where(function (Builder $builder) use ($request) {
-    //         $name = $request->input('name');
-    //         if ($name) {
-    //             $builder->where(function (Builder $builder) use ($name) {
-    //                 $builder->orWhere('first_name', 'like', '%' . $name . '%');
-    //                 $builder->orWhere('last_name', 'like', '%' . $name . '%');
-    //             });
-    //         }
+        // contact, function builder menggunakan request
+        $contacts = $contacts->where(function (Builder $builder) use ($request) {
+            // name request input, untuk search 
+            $name = $request->input('name');
 
-    //         $email = $request->input('email');
-    //         if ($email) {
-    //             $builder->where('email', 'like', '%' . $email . '%');
-    //         }
+            // jika name
+            if ($name) {
+                // builder menggunakan name
+                $builder->where(function (Builder $builder) use ($name) {
+                    // dari first_name = name, dan last_name = name
+                    $builder->orWhere('first_name', 'like', '%' . $name . '%');
+                    $builder->orWhere('last_name', 'like', '%' . $name . '%');
+                });
+            }
 
-    //         $phone = $request->input('phone');
-    //         if ($phone) {
-    //             $builder->where('phone', 'like', '%' . $phone . '%');
-    //         }
-    //     });
+            // email request input, untuk search 
+            $email = $request->input('email');
+            // jika email
+            if ($email) {
+                // dari email = email
+                $builder->where('email', 'like', '%' . $email . '%');
+            }
 
-    //     $contacts = $contacts->paginate(perPage: $size, page: $page);
+            // phone request input, untuk search 
+            $phone = $request->input('phone');
+            if ($phone) {
+                // dari phone = phone
+                $builder->where('phone', 'like', '%' . $phone . '%');
+            }
+        });
 
-    //     return new ContactCollection($contacts);
-    // }
+        // ambil contact pagination, perPage dan page
+        $contacts = $contacts->paginate(perPage: $size, page: $page);
+
+        // kembalikan data contact
+        return new ContactCollection($contacts);
+    }
 }

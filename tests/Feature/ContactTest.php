@@ -229,100 +229,114 @@ class ContactTest extends TestCase
             ]);
     }
 
-    // public function testSearchByFirstName()
-    // {
-    //     $this->seed([UserSeeder::class, SearchSeeder::class]);
+    // search by firsName
+    public function testSearchByFirstName()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-    //     $response = $this->get('/api/contacts?name=first', [
-    //         'Authorization' => 'test'
-    //     ])
-    //         ->assertStatus(200)
-    //         ->json();
+        // kirim ke api, dengan query parameter firstName
+        $response = $this->get('/api/contacts?name=first', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200) // response
+            ->json(); // json
 
-    //     Log::info(json_encode($response, JSON_PRETTY_PRINT));
+        // translate ke json
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
-    //     self::assertEquals(10, count($response['data']));
-    //     self::assertEquals(20, $response['meta']['total']);
-    // }
+        // harus ada 10 dan 20 response data meta total
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
 
-    // public function testSearchByLastName()
-    // {
-    //     $this->seed([UserSeeder::class, SearchSeeder::class]);
+    // search by lastName
+    public function testSearchByLastName()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-    //     $response = $this->get('/api/contacts?name=last', [
-    //         'Authorization' => 'test'
-    //     ])
-    //         ->assertStatus(200)
-    //         ->json();
+        // kirim ke api, dengan query parameter lastName
+        $response = $this->get('/api/contacts?name=last', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
 
-    //     Log::info(json_encode($response, JSON_PRETTY_PRINT));
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
-    //     self::assertEquals(10, count($response['data']));
-    //     self::assertEquals(20, $response['meta']['total']);
-    // }
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
 
-    // public function testSearchByEmail()
-    // {
-    //     $this->seed([UserSeeder::class, SearchSeeder::class]);
+    // search by email
+    public function testSearchByEmail()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-    //     $response = $this->get('/api/contacts?email=test', [
-    //         'Authorization' => 'test'
-    //     ])
-    //         ->assertStatus(200)
-    //         ->json();
+        // kirim ke api, dengan query parameter email
+        $response = $this->get('/api/contacts?email=test', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
 
-    //     Log::info(json_encode($response, JSON_PRETTY_PRINT));
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
-    //     self::assertEquals(10, count($response['data']));
-    //     self::assertEquals(20, $response['meta']['total']);
-    // }
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
 
-    // public function testSearchByPhone()
-    // {
-    //     $this->seed([UserSeeder::class, SearchSeeder::class]);
+    // search by phone
+    public function testSearchByPhone()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-    //     $response = $this->get('/api/contacts?phone=11111', [
-    //         'Authorization' => 'test'
-    //     ])
-    //         ->assertStatus(200)
-    //         ->json();
+        // kirim ke api, dengan query parameter phone
+        $response = $this->get('/api/contacts?phone=11111', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
 
-    //     Log::info(json_encode($response, JSON_PRETTY_PRINT));
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
-    //     self::assertEquals(10, count($response['data']));
-    //     self::assertEquals(20, $response['meta']['total']);
-    // }
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
 
-    // public function testSearchNotFound()
-    // {
-    //     $this->seed([UserSeeder::class, SearchSeeder::class]);
+    // search by gagal
+    public function testSearchNotFound()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-    //     $response = $this->get('/api/contacts?name=tidakada', [
-    //         'Authorization' => 'test'
-    //     ])
-    //         ->assertStatus(200)
-    //         ->json();
+        // kirim ke api, dengan query parameter name tidak ada
+        $response = $this->get('/api/contacts?name=tidakada', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
 
-    //     Log::info(json_encode($response, JSON_PRETTY_PRINT));
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
-    //     self::assertEquals(0, count($response['data']));
-    //     self::assertEquals(0, $response['meta']['total']);
-    // }
+        self::assertEquals(0, count($response['data']));
+        self::assertEquals(0, $response['meta']['total']);
+    }
 
-    // public function testSearchWithPage()
-    // {
-    //     $this->seed([UserSeeder::class, SearchSeeder::class]);
+    // search dari page
+    public function testSearchWithPage()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-    //     $response = $this->get('/api/contacts?size=5&page=2', [
-    //         'Authorization' => 'test'
-    //     ])
-    //         ->assertStatus(200)
-    //         ->json();
+        // kirim ke api, dengan query parameter size dan page
+        $response = $this->get('/api/contacts?size=5&page=2', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
 
-    //     Log::info(json_encode($response, JSON_PRETTY_PRINT));
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
-    //     self::assertEquals(5, count($response['data']));
-    //     self::assertEquals(20, $response['meta']['total']);
-    //     self::assertEquals(2, $response['meta']['current_page']);
-    // }
+        self::assertEquals(5, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+        self::assertEquals(2, $response['meta']['current_page']);
+    }
 }
