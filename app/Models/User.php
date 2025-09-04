@@ -15,11 +15,12 @@ class User extends Model
     public $timestamps = true;
     public $incrementing = true;
 
-    // protected $fillable = [
-    //     'username',
-    //     'password',
-    //     'name'
-    // ];
+    // data yang bisa diubah
+    protected $fillable = [
+        'username',
+        'password',
+        'name'
+    ];
 
     // many
     public function contacts(): HasMany
