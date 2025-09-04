@@ -99,39 +99,41 @@ class AddressTest extends TestCase
             ]);
     }
 
-    // public function testGetSuccess()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
-    //     $address = Address::query()->limit(1)->first();
+    // get sukses
+    public function testGetSuccess()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
+        $address = Address::query()->limit(1)->first();
 
-    //     $this->get('/api/contacts/' . $address->contact_id . '/addresses/' . $address->id, [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => [
-    //                 'street' => 'test',
-    //                 'city' => 'test',
-    //                 'province' => 'test',
-    //                 'country' => 'test',
-    //                 'postal_code' => '11111'
-    //             ]
-    //         ]);
-    // }
+        $this->get('/api/contacts/' . $address->contact_id . '/addresses/' . $address->id, [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'street' => 'test',
+                    'city' => 'test',
+                    'province' => 'test',
+                    'country' => 'test',
+                    'postal_code' => '11111'
+                ]
+            ]);
+    }
 
-    // public function testGetNotFound()
-    // {
-    //     $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
-    //     $address = Address::query()->limit(1)->first();
+    // get tidak ada
+    public function testGetNotFound()
+    {
+        $this->seed([UserSeeder::class, ContactSeeder::class, AddressSeeder::class]);
+        $address = Address::query()->limit(1)->first();
 
-    //     $this->get('/api/contacts/' . $address->contact_id . '/addresses/' . ($address->id + 1), [
-    //         'Authorization' => 'test'
-    //     ])->assertStatus(404)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 'message' => ['not found']
-    //             ]
-    //         ]);
-    // }
+        $this->get('/api/contacts/' . $address->contact_id . '/addresses/' . ($address->id + 1), [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => ['not found']
+                ]
+            ]);
+    }
 
     // public function testUpdateSuccess()
     // {

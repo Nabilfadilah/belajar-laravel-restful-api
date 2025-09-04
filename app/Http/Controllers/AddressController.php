@@ -74,6 +74,37 @@ class AddressController extends Controller
         return (new AddressResource($address))->response()->setStatusCode(201);
     }
 
+    // get 
+    public function get(int $idContact, int $idAddress): AddressResource
+    {
+        $user = Auth::user();
+        $contact = Contact::where('user_id', $user->id)->where('id', $idContact)->first(); // lah code ieu malah sukses
+
+        if (!$contact) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $address = Address::where('contact_id', $contact->id)->where('id', $idAddress)->first(); // lah code ieu malah sukses
+        if (!$address) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        return new AddressResource($address);
+    }
+
+    // get gagal nu ieu mah bjirr
     // public function get(int $idContact, int $idAddress): AddressResource
     // {
     //     $user = Auth::user();
