@@ -15,20 +15,17 @@ class User extends Model implements Authenticatable
     public $timestamps = true;
     public $incrementing = true;
 
-    // data yang bisa diubah
     protected $fillable = [
         'username',
         'password',
         'name'
     ];
 
-    // many
     public function contacts(): HasMany
     {
         return $this->hasMany(Contact::class, "user_id", "id");
     }
 
-    // implement semua method dari Authenticatable
     public function getAuthIdentifierName()
     {
         return 'username';
@@ -36,22 +33,22 @@ class User extends Model implements Authenticatable
 
     public function getAuthIdentifier()
     {
-        return $this->username; // dapatkan username
+        return $this->username;
     }
 
     public function getAuthPassword()
     {
-        return $this->password; // dapatkan password
+        return $this->password;
     }
 
     public function getRememberToken()
     {
-        return $this->token; // dapatkan token
+        return $this->token;
     }
 
     public function setRememberToken($value)
     {
-        $this->token = $value; // atur token
+        $this->token = $value;
     }
 
     public function getRememberTokenName()

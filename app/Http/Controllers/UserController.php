@@ -80,16 +80,43 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    // public function update(UserUpdaUeequest $request): UserResource
-    // {
-    //     $data = $request->validated();
-    //     $user = Auth::user();
+    // update
+    public function update(UserUpdateRequest $request): UserResource
+    {
+        $data = $request->validated();
+        $authUser = Auth::user();
 
+        // ambil user asli dari database pakai id/username
+        $user = User::where('username', $authUser->username)->firstOrFail();
+
+        if (isset($data['name'])) {
+            $user->name = $data['name'];
+        }
+
+        if (isset($data['password'])) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->save();
+
+        return new UserResource($user);
+    }
+
+    // naha nu ieu gagal nya code na!!
+    // public function update(UserUpdateRequest $request): UserResource
+    // {
+    //     $data = $request->validated(); // ambil data yang valid
+    //     $user = Auth::user(); // ambil data user yang lagi login
+
+    //     // jika data ada name
     //     if (isset($data['name'])) {
+    //         // baru ubah data name nya
     //         $user->name = $data['name'];
     //     }
 
+    //     // jika data ada password
     //     if (isset($data['password'])) {
+    //         // baru ubah data password nya, dan berikan hash untuk data password
     //         $user->password = Hash::make($data['password']);
     //     }
 

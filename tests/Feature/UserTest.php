@@ -187,77 +187,92 @@ class UserTest extends TestCase
             ]);
     }
 
-    // public function testUpdatePasswordSuccess()
-    // {
-    //     $this->seed([UserSeeder::class]);
-    //     $oldUser = User::where('username', 'test')->first();
+    // update password sukses
+    public function testUpdatePasswordSuccess()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
+        // ambil data old, dari username value 'test'
+        $oldUser = User::where('username', 'test')->first();
 
-    //     $this->patch(
-    //         '/api/users/current',
-    //         [
-    //             'password' => 'baru'
-    //         ],
-    //         [
-    //             'Authorization' => 'test'
-    //         ]
-    //     )->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => [
-    //                 'username' => 'test',
-    //                 'name' => 'test'
-    //             ]
-    //         ]);
+        // kirim ke api, dengan data valuenya
+        $this->patch(
+            '/api/users/current',
+            [
+                'password' => 'baru'
+            ],
+            [
+                'Authorization' => 'test'
+            ]
+        )->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'username' => 'test',
+                    'name' => 'test'
+                ]
+            ]);
 
-    //     $newUser = User::where('username', 'test')->first();
-    //     self::assertNotEquals($oldUser->password, $newUser->password);
-    // }
+        //ambil data user yang baru, dari username test
+        $newUser = User::where('username', 'test')->first();
+        // passwordnya gak boleh sama lagi!!
+        self::assertNotEquals($oldUser->password, $newUser->password);
+    }
 
-    // public function testUpdateNameSuccess()
-    // {
-    //     $this->seed([UserSeeder::class]);
-    //     $oldUser = User::where('username', 'test')->first();
+    // update name sukses
+    public function testUpdateNameSuccess()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
+        // ambil data old, dari username value 'test'
+        $oldUser = User::where('username', 'test')->first();
 
-    //     $this->patch(
-    //         '/api/users/current',
-    //         [
-    //             'name' => 'Eko'
-    //         ],
-    //         [
-    //             'Authorization' => 'test'
-    //         ]
-    //     )->assertStatus(200)
-    //         ->assertJson([
-    //             'data' => [
-    //                 'username' => 'test',
-    //                 'name' => 'Eko'
-    //             ]
-    //         ]);
+        // kirim ke api, dengan data valuenya
+        $this->patch(
+            '/api/users/current',
+            [
+                'name' => 'Eko'
+            ],
+            [
+                'Authorization' => 'test'
+            ]
+        )->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'username' => 'test',
+                    'name' => 'Eko'
+                ]
+            ]);
 
-    //     $newUser = User::where('username', 'test')->first();
-    //     self::assertNotEquals($oldUser->name, $newUser->name);
-    // }
+        //ambil data user yang baru, dari username test
+        $newUser = User::where('username', 'test')->first();
+        // name gak boleh sama lagi!!
+        self::assertNotEquals($oldUser->name, $newUser->name);
+    }
 
-    // public function testUpdateFailed()
-    // {
-    //     $this->seed([UserSeeder::class]);
+    // update gagal
+    public function testUpdateFailed()
+    {
+        // ambil seeder
+        $this->seed([UserSeeder::class]);
 
-    //     $this->patch(
-    //         '/api/users/current',
-    //         [
-    //             'name' => 'EkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEko'
-    //         ],
-    //         [
-    //             'Authorization' => 'test'
-    //         ]
-    //     )->assertStatus(400)
-    //         ->assertJson([
-    //             'errors' => [
-    //                 'name' => [
-    //                     "The name field must not be greater than 100 characters."
-    //                 ]
-    //             ]
-    //         ]);
-    // }
+        // kirim ke api, dengan data valuenya
+        $this->patch(
+            '/api/users/current',
+            [
+                'name' => 'EkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEkoEko'
+            ],
+            [
+                'Authorization' => 'test'
+            ]
+        )->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        "The name field must not be greater than 100 characters."
+                    ]
+                ]
+            ]);
+    }
 
     // public function testLogoutSuccess()
     // {
